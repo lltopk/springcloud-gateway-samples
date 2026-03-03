@@ -1,0 +1,28 @@
+server:
+  port: 8080 # 网关端口
+spring:
+  application:
+    name: lltopk-gateway
+  cloud:
+    nacos:
+      server-addr: 192.168.18.100:8848
+      discovery:
+        server-addr: 192.168.18.100:8848
+    gateway:
+      default-filters:
+        - AddRequestHeader=gateway-env, springcloud-gateway
+      routes: # 网关路由配置
+        - id: server1 # 路由id, 自定义，唯一即可
+          # uri: 127.0.0.1:/order # - 路由目的地，支持lb和http两种
+          uri: lb://lltopk-server1 # 路由的目的地，lb是负载均衡，后面跟服务名称
+          predicates: # 路由断言，也就是判断是否符合路由规则的条件
+            - Path=/lltopk-server1/** # path 按照路径进行匹配，只要以/lltopk-server1/开头就符合规则
+          filters:
+            - StripPrefix=1 # 过滤器，去除请求的前缀路径，StripPrefix=1 表示去除请求路径的第一个路径片段
+        - id: server2 # 路由id, 自定义，唯一即可
+          # uri: 127.0.0.1:/order # - 路由目的地，支持lb和http两种
+          uri: lb://lltopk-server2 # 路由的目的地，lb是负载均衡，后面跟服务名称
+          predicates: # 路由断言，也就是判断是否符合路由规则的条件
+            - Path=/lltopk-server2/** # path 按照路径进行匹配，只要以/lltopk-server2/开头就符合规则
+          filters:
+            - StripPrefix=1 # 过滤器，去除请求的前缀路径，StripPrefix=1 表示去除请求路径的第一个路径片段
