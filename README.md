@@ -34,3 +34,10 @@ gateway服务依赖
 GET http://localhost:8080/lltopk-server1/server1/get/1
 GET http://localhost:8080/lltopk-server2/server2/get/2
 ```
+## 路由规则
+
+## 过滤器链
+
+## 限流插件
+
+## 高性能篇
